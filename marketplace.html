@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epicater — Catering Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#E07B22;
+  --orange-dk:#C25E10;
+  --orange-lt:#FBD9AC;
+  --orange-xlt:#FDF0DE;
+  --blue:#1272B8;
+  --blue-dk:#0F5E99;
+  --ink:#1F2933;
+  --muted:#6B7280;
+  --line:#E5E7EB;
+  --line-soft:#F1F3F5;
+  --bg:#FFFFFF;
+  --card-r:16px;
+  --shadow:0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06);
+  --shadow-hi:0 2px 4px rgba(16,24,40,.06), 0 16px 40px rgba(16,24,40,.10);
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  color:var(--ink); background:var(--bg);
+  -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.55;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:14px;color:var(--ink)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.eyebrow{
+  font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--orange);
+  text-transform:none;margin:0 0 6px;
+}
+.rule-head{
+  display:flex;align-items:baseline;gap:12px;
+  border-bottom:2px solid var(--orange);padding-bottom:10px;margin:0 0 14px;
+}
+.rule-head h2{
+  margin:0;font-size:17px;font-weight:700;color:var(--blue);
+  letter-spacing:.14em;text-transform:uppercase;
+}
+
+/* ---------------- top bar ---------------- */
+.topbar{
+  position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line-soft);
+}
+.topbar-in{max-width:var(--maxw);margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.brand-mark{width:26px;height:26px;flex:none}
+.brand-word{font-family:'Yellowtail',cursive;font-size:30px;color:var(--orange);line-height:1;padding-bottom:6px}
+.nav{display:flex;gap:22px;margin-left:8px}
+.nav a{font-size:14px;font-weight:500;color:var(--muted);padding:4px 0;border-bottom:2px solid transparent}
+.nav a:hover{color:var(--ink)}
+.nav a.on{color:var(--ink);border-bottom-color:var(--orange)}
+.spacer{flex:1}
+.btn{
+  border:0;border-radius:10px;padding:11px 18px;font-size:14px;font-weight:600;
+  transition:transform .12s ease, box-shadow .18s ease, background .18s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-orange{background:var(--orange-dk);color:#fff}
+.btn-orange:hover{background:#A94F0B}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:var(--blue-dk)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:#CBD2D9;background:#FCFCFD}
+
+/* ---------------- hero ---------------- */
+.hero{padding:52px 0 26px}
+.hero h1{
+  margin:0;font-size:clamp(38px,6vw,62px);font-weight:700;color:var(--blue);
+  letter-spacing:.11em;line-height:1.02;text-transform:uppercase;
+}
+.hero .sub{margin:12px 0 0;font-size:17px;color:var(--muted);max-width:560px}
+.hero-row{display:flex;align-items:flex-end;gap:30px;flex-wrap:wrap}
+
+/* ---------------- controls ---------------- */
+.controls{display:flex;gap:14px;align-items:center;margin:30px 0 18px;flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:250px;max-width:400px}
+.search input{
+  width:100%;border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px 12px 40px;background:#FCFCFD;outline:none;transition:.16s;
+}
+.search input:focus{border-color:var(--orange);background:#fff;box-shadow:0 0 0 3px rgba(224,123,34,.12)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.4}
+.sel{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#FCFCFD;outline:none}
+.sel:focus{border-color:var(--orange)}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 26px}
+.chip{
+  border:1px solid var(--line);background:#fff;border-radius:999px;
+  padding:8px 16px;font-size:13px;font-weight:500;color:var(--muted);transition:.16s;
+}
+.chip:hover{border-color:var(--orange);color:var(--orange)}
+.chip.on{background:var(--orange-lt);border-color:var(--orange-lt);color:var(--orange-dk);font-weight:600}
+.count{font-size:13px;color:var(--muted);margin:0 0 18px}
+.count b{color:var(--ink);font-weight:600}
+
+/* ---------------- grid ---------------- */
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));
+  gap:26px 24px;padding-bottom:60px;
+}
+.card{
+  border:1px solid var(--line);border-radius:var(--card-r);background:#fff;overflow:hidden;
+  cursor:pointer;display:flex;flex-direction:column;
+  transition:transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hi);border-color:#E8EAED}
+.card:focus-visible{outline:3px solid rgba(224,123,34,.4);outline-offset:2px}
+.thumb{position:relative;aspect-ratio:4/3;background:var(--orange-xlt);overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
+.card:hover .thumb img{transform:scale(1.045)}
+.badge{
+  position:absolute;top:12px;left:12px;background:rgba(255,255,255,.94);
+  border-radius:999px;padding:5px 11px;font-size:11px;font-weight:600;
+  color:var(--orange-dk);letter-spacing:.03em;backdrop-filter:blur(4px);
+}
+.badge-new{background:var(--orange-dk);color:#fff}
+.fav{
+  position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.92);border:0;display:grid;place-items:center;
+  backdrop-filter:blur(4px);transition:.15s;
+}
+.fav:hover{background:#fff;transform:scale(1.08)}
+.fav svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2}
+.fav.on svg{fill:var(--orange);stroke:var(--orange)}
+.body{padding:16px 17px 18px;display:flex;flex-direction:column;flex:1}
+.vendor{font-size:12px;font-weight:600;color:var(--orange);margin:0 0 4px}
+.name{
+  margin:0 0 8px;font-size:17px;font-weight:700;color:var(--blue);
+  letter-spacing:.02em;line-height:1.25;
+}
+.desc{margin:0 0 12px;font-size:13px;color:var(--muted);line-height:1.5;flex:1}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin:0 0 13px}
+.tag{
+  font-size:10px;font-weight:600;color:var(--blue);background:#EAF3FA;
+  border-radius:5px;padding:3px 7px;letter-spacing:.03em;
+}
+.tag.veg{background:#E9F5EC;color:#2E7D46}
+.meta{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-top:1px solid var(--line-soft);padding-top:13px;
+}
+.price{font-size:17px;font-weight:700;color:var(--orange-dk);line-height:1.2}
+.price span{font-size:11px;font-weight:500;color:var(--muted);display:block;margin-top:1px}
+.minmax{font-size:11px;color:var(--muted);text-align:right;line-height:1.45}
+.minmax b{display:block;color:var(--ink);font-weight:600;font-size:12px}
+.empty{
+  grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--muted);
+  border:1px dashed var(--line);border-radius:var(--card-r);
+}
+.empty h3{margin:0 0 6px;color:var(--ink);font-size:17px;font-weight:600}
+
+/* upload tile */
+.addtile{
+  border:2px dashed #E3D3BE;border-radius:var(--card-r);background:var(--orange-xlt);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;min-height:280px;cursor:pointer;transition:.18s;color:var(--orange-dk);padding:24px;
+}
+.addtile:hover{background:#FCE7CC;border-color:var(--orange);transform:translateY(-3px)}
+.addtile .plus{
+  width:46px;height:46px;border-radius:50%;background:#fff;display:grid;place-items:center;
+  font-size:24px;font-weight:600;color:var(--orange);box-shadow:var(--shadow);
+}
+.addtile strong{font-size:15px;font-weight:600}
+.addtile small{font-size:12px;color:var(--muted);text-align:center;max-width:190px;line-height:1.5}
+
+/* ---------------- footer ---------------- */
+.foot{border-top:1px solid var(--line-soft);padding:26px 0 44px;font-size:12px;color:var(--muted)}
+
+/* drop zone */
+.drop{
+  border:2px dashed var(--line);border-radius:14px;background:#FCFCFD;
+  padding:26px;text-align:center;cursor:pointer;transition:.18s;position:relative;overflow:hidden;
+}
+.drop:hover,.drop.hot{border-color:var(--orange);background:var(--orange-xlt)}
+.drop .ic{font-size:26px;margin-bottom:6px}
+.drop strong{display:block;font-size:14px;font-weight:600;margin-bottom:3px}
+.drop small{font-size:12px;color:var(--muted)}
+.drop.has{padding:0;border-style:solid;border-color:var(--line)}
+.drop.has img{width:100%;height:190px;object-fit:cover;display:block}
+.drop .swap{
+  position:absolute;bottom:10px;right:10px;background:rgba(255,255,255,.94);
+  border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--ink);
+}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1/-1}
+.f label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.f label .req{color:var(--orange)}
+.f input,.f select,.f textarea{
+  border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#FCFCFD;
+  outline:none;transition:.16s;width:100%;
+}
+.f input:focus,.f select:focus,.f textarea:focus{
+  border-color:var(--orange);background:#fff;box-shadow:0 0 0 3px rgba(224,123,34,.12);
+}
+.f textarea{resize:vertical;min-height:74px;line-height:1.5}
+.slug{
+  font-size:12px;color:var(--muted);background:var(--line-soft);border-radius:8px;
+  padding:8px 11px;margin-top:2px;word-break:break-all;
+}
+.slug b{color:var(--orange-dk);font-weight:600}
+.checks{display:flex;gap:7px;flex-wrap:wrap}
+.ck{
+  border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:12px;
+  font-weight:500;color:var(--muted);background:#fff;transition:.15s;
+}
+.ck:hover{border-color:var(--orange)}
+.ck.on{background:#EAF3FA;border-color:#BCDCF2;color:var(--blue);font-weight:600}
+.builder{border:1px solid var(--line);border-radius:14px;background:#FCFCFD;overflow:hidden}
+.builder-sec{padding:16px;border-top:1px solid var(--line-soft)}
+.builder-sec:first-child{border-top:0}
+.builder-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.builder-head strong{font-size:13px;font-weight:700;color:var(--blue);letter-spacing:.1em;text-transform:uppercase}
+.mini{
+  border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 11px;
+  font-size:12px;font-weight:600;color:var(--orange-dk);
+}
+.mini:hover{border-color:var(--orange);background:var(--orange-xlt)}
+.choice-row{
+  display:grid;grid-template-columns:minmax(130px,1fr) minmax(180px,1.45fr) minmax(130px,.85fr) 34px;
+  gap:8px;align-items:start;margin-top:14px;position:relative;
+  border:1px solid #D8DEE6;border-left:4px solid var(--blue);border-radius:12px;background:#fff;padding:14px;
+  box-shadow:0 1px 2px rgba(16,24,40,.04);
+}
+.choice-row:first-child{margin-top:0}
+.choice-row.proteins{border-left-color:var(--blue)}
+.choice-row.sides{border-left-color:var(--orange)}
+.choice-row.addons{border-left-color:#2E7D46}
+.choice-label{
+  grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:2px;
+}
+.choice-label::after{content:'';height:1px;background:var(--line-soft);flex:1}
+.choice-row input{
+  width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:#FCFCFD;
+  outline:none;transition:.16s;font-size:13px;
+}
+.choice-row input:disabled{background:#F8FAFC;color:var(--muted)}
+.choice-row input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(224,123,34,.12)}
+.diet-picks{grid-column:1/-1;display:flex;gap:7px;flex-wrap:wrap}
+.diet-pick{
+  border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:12px;
+  font-weight:500;color:var(--muted);background:#fff;transition:.15s;
+}
+.diet-pick:hover{border-color:var(--orange)}
+.diet-pick.on{background:#EAF3FA;border-color:#BCDCF2;color:var(--blue);font-weight:600}
+.trash{
+  width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--muted);
+  font-size:18px;line-height:1;
+}
+.trash:hover{border-color:#F2B8B5;color:#B42318;background:#FFF5F5}
+.err{font-size:12px;color:#C0392B;margin-top:8px;display:none}
+.err.on{display:block}
+
+/* ---------------- add page ---------------- */
+.add-page{max-width:960px;margin:0 auto;padding:0 28px 120px}
+.add-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:8px 0 22px}
+.add-head h1{
+  margin:2px 0 0;font-size:clamp(30px,5vw,46px);font-weight:700;color:var(--blue);
+  letter-spacing:.12em;text-transform:uppercase;line-height:1.05;
+}
+.add-head p{margin:8px 0 0;font-size:15px;color:var(--muted);max-width:620px}
+.add-shell{border:1px solid var(--line);border-radius:16px;background:#fff;padding:24px 26px;box-shadow:var(--shadow)}
+.add-actions{
+  margin:28px -26px -24px;padding:16px 26px;
+  border-top:1px solid var(--line-soft);background:#fff;
+  display:flex;gap:10px;align-items:center;justify-content:flex-end;
+}
+.add-actions .note{margin-right:auto;font-size:12px;color:var(--muted)}
+
+/* ---------------- info pages ---------------- */
+.page{max-width:var(--maxw);margin:0 auto;padding:0 28px 80px}
+.page-head{padding:46px 0 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap}
+.page-head h1{
+  margin:0;font-size:clamp(34px,5.5vw,56px);font-weight:700;color:var(--blue);
+  letter-spacing:.12em;text-transform:uppercase;line-height:1.05;
+}
+.page-head .sub{margin:10px 0 0;font-size:16px;color:var(--muted);max-width:620px}
+.page-actions{display:flex;gap:10px;flex-wrap:wrap}
+.vendor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-top:12px;align-items:stretch}
+.vendor-card{
+  border:1px solid var(--line);border-radius:12px;background:#fff;padding:18px;
+  display:flex;flex-direction:column;gap:14px;min-height:330px;
+  box-shadow:0 1px 2px rgba(16,24,40,.04);
+}
+.vendor-card h3{margin:0;font-size:17px;font-weight:700;color:var(--blue);line-height:1.25}
+.vendor-card p{margin:4px 0 0;font-size:13px;color:var(--muted);line-height:1.4}
+.vendor-logo{
+  height:118px;border-radius:12px;border:1px solid var(--line-soft);margin-bottom:2px;
+  background-image:url('assets/vendor-logo-sprite.png');background-size:400% 200%;
+  background-repeat:no-repeat;background-color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.65);
+}
+.vendor-logo.mexican{background-position:0 0}
+.vendor-logo.thai{background-position:33.333% 0}
+.vendor-logo.sandwiches{background-position:66.666% 0}
+.vendor-logo.bbq{background-position:100% 0}
+.vendor-logo.japanese{background-position:0 100%}
+.vendor-logo.italian{background-position:33.333% 100%}
+.vendor-logo.middle-eastern{background-position:66.666% 100%}
+.vendor-logo.indian{background-position:100% 100%}
+.vendor-info{text-align:center;min-height:48px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{border:1px solid var(--line-soft);border-radius:10px;background:#FCFCFD;padding:10px;min-height:74px}
+.stat b{display:block;font-size:15px;color:var(--ink);line-height:1.2}
+.stat span{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.vendor-menus{display:flex;gap:6px;flex-wrap:wrap;align-content:flex-start;min-height:50px}
+.mini-tag{font-size:10px;font-weight:600;color:var(--blue);background:#EAF3FA;border-radius:5px;padding:4px 7px}
+.vendor-card .btn{margin-top:auto;width:100%}
+.step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:12px}
+.flow-step{
+  border:1px solid var(--line);border-radius:12px;background:#fff;padding:18px;
+  min-height:190px;display:flex;flex-direction:column;gap:10px;
+}
+.flow-num{
+  width:34px;height:34px;border-radius:50%;background:var(--orange);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:13px;
+}
+.flow-step h3{margin:0;font-size:16px;color:var(--blue)}
+.flow-step p{margin:0;font-size:13px;color:var(--muted);line-height:1.55}
+.info-band{
+  margin-top:28px;border-top:2px solid var(--orange);padding:18px 0;
+  display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start;
+}
+.info-band h2{margin:0;font-size:20px;color:var(--blue);letter-spacing:.08em;text-transform:uppercase}
+.info-band p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.6}
+.check-list{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.check-list li{font-size:14px;color:var(--ink);padding-left:24px;position:relative}
+.check-list li::before{content:'✓';position:absolute;left:0;color:var(--orange-dk);font-weight:700}
+
+/* ---------------- detail page ---------------- */
+.detail{max-width:1120px;margin:0 auto;padding:0 28px 130px}
+.back{
+  display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;
+  color:var(--muted);padding:22px 0 4px;background:none;border:0;
+}
+.back:hover{color:var(--orange-dk)}
+.d-head{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;padding:8px 0 26px}
+.d-head h1{
+  margin:2px 0 0;font-size:clamp(30px,5vw,48px);font-weight:700;color:var(--blue);
+  letter-spacing:.12em;text-transform:uppercase;line-height:1.05;
+}
+.d-head .vend{margin:8px 0 0;font-size:17px;color:var(--muted)}
+.combo{
+  background:var(--orange-lt);border-radius:18px;padding:26px 30px;
+  display:flex;align-items:center;gap:28px;margin-bottom:40px;
+}
+.combo-badge{
+  width:120px;height:120px;border-radius:50%;background:#fff;flex:none;
+  display:grid;place-items:center;text-align:center;font-size:11px;font-weight:600;
+  letter-spacing:.1em;color:var(--ink);line-height:1.6;padding:14px;
+}
+.combo-txt .p{margin:0;font-size:24px;font-weight:700;color:var(--orange-dk)}
+.combo-txt .t{margin:5px 0 9px;font-size:26px;font-weight:700;color:var(--blue)}
+.combo-txt .d{margin:0;font-size:14px;color:var(--ink);max-width:620px;line-height:1.6}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:34px 46px;margin-bottom:38px}
+.sec-note{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:13px;font-weight:600;color:var(--orange-dk)}
+.pill{background:var(--orange-lt);border-radius:999px;padding:3px 11px;font-size:11px;font-weight:600;color:var(--orange-dk)}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:11px 0}
+.opt-img{
+  width:52px;height:52px;border-radius:12px;flex:none;object-fit:cover;
+  background:var(--orange-xlt);border:1px solid var(--line-soft);
+}
+.opt-in{flex:1;min-width:0}
+.opt-t{margin:0;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.diet{font-size:10.5px;font-weight:500;color:var(--muted);letter-spacing:.02em}
+.vegtag{background:#EAF3FA;color:var(--blue);border-radius:5px;padding:2px 7px;font-size:10px;font-weight:600}
+.opt-d{margin:3px 0 0;font-size:13px;color:var(--muted);line-height:1.5}
+.opt-up{margin:4px 0 0;font-size:12px;font-weight:600;color:var(--orange-dk)}
+.box{
+  width:26px;height:26px;border:1.5px solid var(--line);border-radius:7px;background:#fff;
+  flex:none;margin-top:12px;transition:.15s;display:grid;place-items:center;
+}
+.box:hover{border-color:var(--orange)}
+.box.on{background:var(--orange);border-color:var(--orange)}
+.box svg{width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none;opacity:0}
+.box.on svg{opacity:1}
+.box.dis{opacity:.4;cursor:not-allowed}
+.divider{display:flex;align-items:center;gap:14px;margin:14px 0 4px;color:var(--muted)}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--line)}
+.divider span{font-size:11px;font-weight:600;letter-spacing:.14em}
+.step{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex:none;margin-top:10px}
+.step button{width:34px;height:36px;border:0;background:#fff;font-size:16px;color:var(--muted)}
+.step button:hover{background:var(--orange-xlt);color:var(--orange-dk)}
+.step span{width:38px;text-align:center;font-size:14px;font-weight:600}
+.step.compact{margin-top:0}
+.panel{border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-bottom:26px}
+.panel h4{margin:0;font-size:14px;font-weight:700;color:var(--blue);letter-spacing:.1em;text-transform:uppercase}
+.panel .ph{margin:4px 0 16px;font-size:13px;color:var(--muted)}
+.sum-row{display:flex;justify-content:space-between;gap:16px;font-size:14px;padding:5px 0}
+.sum-row .l{color:var(--ink)}
+.sum-row .r{font-weight:600;color:var(--ink);white-space:nowrap}
+.sum-empty{font-size:14px;color:var(--muted);font-style:italic}
+.guest-row{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  border-top:1px solid var(--line-soft);margin-top:12px;padding-top:14px;
+}
+.guest-row label{font-size:13px;font-weight:700;color:var(--ink)}
+.guest-row small{display:block;font-size:11px;font-weight:500;color:var(--muted);margin-top:2px}
+.tot{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-top:1.5px solid var(--orange);margin-top:16px;padding-top:15px;
+}
+.tot .l{font-size:17px;font-weight:700}
+.tot .r{font-size:22px;font-weight:700;color:var(--ink)}
+.tot small{display:block;font-size:11px;font-weight:500;color:var(--muted);text-align:right;margin-top:2px}
+.stick{
+  position:fixed;left:0;right:0;bottom:0;background:var(--orange);color:#fff;z-index:70;
+  padding:14px 28px;display:flex;align-items:center;gap:16px;
+}
+.stick .lbl{font-size:12px;font-weight:600;opacity:.95}
+.stick .amt{font-size:20px;font-weight:700;line-height:1.2}
+.stick .sp{flex:1}
+.stick .btn-ghost{background:#fff;border:0}
+@media(max-width:860px){
+  .two{grid-template-columns:1fr}
+  .fields{grid-template-columns:1fr}
+  .choice-row{grid-template-columns:1fr}
+  .choice-row .trash{justify-self:start}
+  .step-grid,.info-band{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr 1fr}
+  .combo{flex-direction:column;text-align:center;padding:24px 20px}
+  .nav{display:none}
+  .stick .lbl,.stick .amt{display:none}
+  .stick{justify-content:stretch}
+  .stick .btn{flex:1}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand" onclick="go('/')">
+      <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="#E07B22" stroke-width="1.8" stroke-linecap="round">
+        <path d="M4 3l16 18M20 3L4 21"/><circle cx="12" cy="12" r="2.4" fill="#FBD9AC" stroke="none"/>
+      </svg>
+      <span class="brand-word">Epicater</span>
+    </div>
+    <nav class="nav">
+      <a class="on" data-nav="marketplace" onclick="go('/')">Marketplace</a>
+      <a data-nav="vendors" onclick="go('/vendors')">Vendors</a>
+      <a data-nav="how" onclick="go('/how-it-works')">How it works</a>
+    </nav>
+    <div class="spacer"></div>
+    <button class="btn btn-ghost" onclick="openModal()">+ Add menu set</button>
+    <button class="btn btn-orange" onclick="go('/')">Get a quote</button>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<script>
+/* ============================================================
+   PLACEHOLDER IMAGERY — swap for real vendor uploads
+   ============================================================ */
+function plate(a,b,c){
+  const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>
+    <rect width="400" height="300" fill="url(#g)"/>
+    <circle cx="200" cy="150" r="92" fill="#fff" opacity=".55"/>
+    <circle cx="200" cy="150" r="70" fill="${c}" opacity=".55"/>
+    <circle cx="200" cy="150" r="46" fill="#fff" opacity=".45"/>
+    <circle cx="200" cy="150" r="24" fill="${c}" opacity=".5"/>
+  </svg>`;
+  return 'data:image/svg+xml;utf8,'+encodeURIComponent(s);
+}
+const IMG={
+  thai   : plate('#FDEBD3','#F8D5A8','#E9A752'),
+  italian: plate('#FBE4E0','#F6CFC6','#D98070'),
+  indian : plate('#FDF0D8','#F5DDA6','#D9A032'),
+  mex    : plate('#EAF6E4','#D6EBCC','#7DAE63'),
+  me     : plate('#F3EEF9','#E2D8F0','#9A85C4'),
+  jp     : plate('#E7F1F8','#CEE2F0','#6FA3C9'),
+  bbq    : plate('#F7E6DC','#E9CBB6','#B87249'),
+  sand   : plate('#FFF6DE','#F7E6B4','#DEB945'),
+  brk    : plate('#FDEEE7','#F7D9C9','#E29B72'),
+};
+
+/* ============================================================
+   DATA — replace with your API / CMS feed
+   ============================================================ */
+const DEFAULT_PROTEINS=[
+  {n:'Grilled Chicken',d:'Marinated and grilled, served on the side.',diet:'GF, DF, HL, NF'},
+  {n:'Sautéed Shrimp',d:'Sautéed in house sauce, served on the side.',diet:'GF, DF, HL, NF',up:2.50},
+  {n:'Sliced Beef',d:'Sliced striploin, served on the side.',diet:'GF, DF, HL, NF'},
+  {n:'Marinated Tofu',d:'Vegan — prepared without egg on request.',diet:'GF, DF, HL, NF, V, VG',veg:true},
+];
+const DEFAULT_SIDES=[
+  {n:'Steamed Rice',d:'Jasmine rice, steamed fresh.',diet:'GF, DF, HL, NF, V, VG'},
+  {n:'Steamed Vegetables',d:'Lightly steamed seasonal vegetables.',diet:'GF, DF, HL, NF, V, VG'},
+  {n:'Garden Salad',d:'Mixed greens with house vinaigrette.',diet:'GF, DF, HL, NF, V, VG'},
+  {n:'Spring Rolls',d:'Crispy vegetable spring rolls.',diet:'DF, NF, HL, VG'},
+];
+const DEFAULT_ADDONS=[
+  {n:'Soft Drinks',d:'Assorted cans, chilled.',diet:'GF, DF, V, VG',p:2.50},
+  {n:'Dessert Platter',d:"Chef's selection of sweets.",diet:'V',p:5.50},
+  {n:'Compostable Cutlery',d:'Per-guest kit with napkin.',diet:'',p:1.25},
+];
+
+let SETS=[
+{slug:'pad-thai-crystal-thani',name:'Pad Thai',vendor:'Crystal Thani',cuisine:'Thai',
+ price:18.50,min:10,lead:'48 hrs',img:'assets/menu-photos/menu-00.png',pop:true,
+ desc:'Wok-tossed rice noodles in tamarind sauce. Pick two proteins and two sides.',
+ tags:['GF','DF','NF','V','VG','HL'],
+ comboTitle:'2 Proteins & 2 Sides',
+ comboDesc:'Pick any two proteins — mix meat, or go all vegetarian with the options below the line. Then choose two sides.',
+ proteins:[
+   {n:'Pad Thai Chicken',d:'Grilled chicken served on the side.',diet:'GF, DF, HL, NF'},
+   {n:'Pad Thai Shrimp',d:'Sautéed shrimp served on the side.',diet:'GF, DF, HL, NF',up:2.50},
+   {n:'Pad Thai Beef',d:'Sliced beef served on the side.',diet:'GF, DF, HL, NF'},
+   {n:'Pad Thai Tofu',d:'Tofu in tamarind sauce (vegan — no egg on request).',diet:'GF, DF, HL, NF, V, VG',veg:true},
+ ],
+ sides:[
+   {n:'Pad Thai Rice Noodles',d:'Rice noodles wok-tossed in tamarind sauce.',diet:'GF, DF, HL, NF'},
+   {n:'Steamed Vegetables',d:'Lightly steamed seasonal vegetables.',diet:'GF, DF, HL, NF, V, VG'},
+   {n:'Spring Rolls',d:'Crispy vegetable spring rolls.',diet:'DF, NF, HL, VG'},
+   {n:'Thai Mango Salad',d:'Mango, red pepper, coriander, red onion, sweet-sour dressing.',diet:'GF, DF, HL, NF, V, VG'},
+ ],
+ addons:[
+   {n:'Thai Iced Tea',d:'Sweet black tea with condensed milk.',diet:'V',p:4.25},
+   {n:'Mango Sticky Rice',d:'Coconut sticky rice with fresh mango.',diet:'GF, DF, V, VG',p:6.50},
+   {n:'Extra Peanut Sauce',d:'250 ml container.',diet:'GF, DF, V',p:3.00},
+ ]},
+{slug:'green-curry-crystal-thani',name:'Green Curry',vendor:'Crystal Thani',cuisine:'Thai',
+ price:19.75,min:12,lead:'48 hrs',img:'assets/menu-photos/menu-01.png',
+ desc:'Coconut green curry with Thai basil, served with jasmine rice.',
+ tags:['GF','DF','NF','V','VG','HL']},
+{slug:'porchetta-lunch-nonna-lucia',name:'Porchetta Lunch',vendor:'Nonna Lucia',cuisine:'Italian',
+ price:22.00,min:15,lead:'72 hrs',img:'assets/menu-photos/menu-02.png',pop:true,
+ desc:'Slow-roasted porchetta, focaccia, arugula salad and roasted potatoes.',
+ tags:['DF','NF']},
+{slug:'antipasto-spread-nonna-lucia',name:'Antipasto Spread',vendor:'Nonna Lucia',cuisine:'Italian',
+ price:16.25,min:10,lead:'48 hrs',img:'assets/menu-photos/menu-03.png',
+ desc:'Cured meats, marinated vegetables, olives, cheeses and warm bread.',
+ tags:['NF','V']},
+{slug:'butter-chicken-thali-saffron-house',name:'Butter Chicken Thali',vendor:'Saffron House',cuisine:'Indian',
+ price:20.00,min:12,lead:'48 hrs',img:'assets/menu-photos/menu-04.png',pop:true,
+ desc:'Butter chicken, dal, basmati, naan and raita in a compostable thali.',
+ tags:['GF','NF','V','HL']},
+{slug:'chaat-bar-saffron-house',name:'Chaat Bar',vendor:'Saffron House',cuisine:'Indian',
+ price:14.50,min:20,lead:'72 hrs',img:'assets/menu-photos/menu-05.png',
+ desc:'Build-your-own chaat station with three chutneys and crisp toppings.',
+ tags:['V','VG','HL']},
+{slug:'taco-bar-casa-mateo',name:'Taco Bar',vendor:'Casa Mateo',cuisine:'Mexican',
+ price:17.00,min:15,lead:'48 hrs',img:'assets/menu-photos/menu-06.png',pop:true,
+ desc:'Two proteins, corn and flour tortillas, salsas, rice and black beans.',
+ tags:['GF','DF','NF','V','VG']},
+{slug:'mezze-platter-olive-cedar',name:'Mezze Platter',vendor:'Olive & Cedar',cuisine:'Middle Eastern',
+ price:15.75,min:10,lead:'48 hrs',img:'assets/menu-photos/menu-07.png',
+ desc:'Hummus, baba ghanoush, tabbouleh, falafel, pickles and warm pita.',
+ tags:['DF','NF','V','VG','HL']},
+{slug:'shawarma-boxes-olive-cedar',name:'Shawarma Boxes',vendor:'Olive & Cedar',cuisine:'Middle Eastern',
+ price:18.00,min:12,lead:'48 hrs',img:'assets/menu-photos/menu-08.png',
+ desc:'Individually boxed chicken or cauliflower shawarma with garlic sauce.',
+ tags:['DF','NF','VG','HL']},
+{slug:'bento-selection-kaze-kitchen',name:'Bento Selection',vendor:'Kaze Kitchen',cuisine:'Japanese',
+ price:24.50,min:10,lead:'72 hrs',img:'assets/menu-photos/menu-09.png',
+ desc:'Individually sealed bento with teriyaki, rice, gyoza and a side salad.',
+ tags:['DF','NF','V']},
+{slug:'smokehouse-tray-ember-co',name:'Smokehouse Tray',vendor:'Ember & Co.',cuisine:'BBQ',
+ price:26.00,min:20,lead:'96 hrs',img:'assets/menu-photos/menu-10.png',
+ desc:'Brisket, pulled pork, cornbread, slaw and pickles, served family style.',
+ tags:['GF','NF']},
+{slug:'signature-sandwich-box-daily-press',name:'Signature Sandwich Box',vendor:'Daily Press',cuisine:'Sandwiches',
+ price:15.00,min:8,lead:'24 hrs',img:'assets/menu-photos/menu-11.png',pop:true,
+ desc:'Individually wrapped sandwiches, chips and a cookie. Easy desk drop.',
+ tags:['NF','V']},
+{slug:'morning-social-daily-press',name:'Morning Social',vendor:'Daily Press',cuisine:'Breakfast',
+ price:12.50,min:10,lead:'24 hrs',img:'assets/menu-photos/menu-12.png',
+ desc:'Pastries, seasonal fruit, yogurt parfaits and a coffee urn.',
+ tags:['NF','V']},
+];
+
+/* ============================================================
+   STATE + ROUTING
+   ============================================================ */
+const DIET_OPTIONS=[
+  {code:'GF',label:'Gluten-free'},
+  {code:'DF',label:'Dairy-free'},
+  {code:'NF',label:'Nut-free'},
+  {code:'V',label:'Vegetarian'},
+  {code:'VG',label:'Vegan'},
+  {code:'HL',label:'Halal'},
+];
+const S={q:'',cuisine:'All',favs:new Set(),picks:{},upload:null,tags:new Set(),choices:defaultChoiceDraft()};
+const money=n=>'$'+n.toFixed(2);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slugify=s=>s.toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-');
+
+function go(path){location.hash='#'+path;}
+function route(){
+  const p=(location.hash||'#/').slice(1);
+  const slug=p.replace(/^\//,'');
+  if(slug==='vendors'){setActiveNav('vendors');window.scrollTo(0,0);renderVendorsPage();return;}
+  if(slug==='how-it-works'){setActiveNav('how');window.scrollTo(0,0);renderHowPage();return;}
+  if(slug==='add-menu-set'){setActiveNav('marketplace');window.scrollTo(0,0);renderAddPage();return;}
+  const set=SETS.find(x=>x.slug===slug);
+  setActiveNav('marketplace');
+  window.scrollTo(0,0);
+  set?renderDetail(set):renderGrid();
+}
+window.addEventListener('hashchange',route);
+
+function setActiveNav(name){
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.nav===name));
+}
+
+/* ============================================================
+   MARKETPLACE GRID
+   ============================================================ */
+function renderGrid(){
+  const cuisines=['All',...new Set(SETS.map(s=>s.cuisine))];
+  const q=S.q.toLowerCase();
+  const list=SETS.filter(s=>
+    (S.cuisine==='All'||s.cuisine===S.cuisine)&&
+    (!q||(s.name+' '+s.vendor+' '+s.cuisine+' '+(s.desc||'')).toLowerCase().includes(q))
+  );
+
+  document.getElementById('app').innerHTML=`
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-row">
+        <div>
+          <p class="eyebrow">Summer 2026 · Catering</p>
+          <h1>Marketplace</h1>
+          <p class="sub">Menu sets from vetted local vendors. Pick a set, choose your combos, and send the order request.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F2933" stroke-width="2">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" placeholder="Search menu sets, vendors or cuisines" value="${esc(S.q)}">
+      </div>
+      <select class="sel" id="sortby">
+        <option value="pop">Most popular</option>
+        <option value="lo">Price: low to high</option>
+        <option value="hi">Price: high to low</option>
+        <option value="az">Name A–Z</option>
+      </select>
+    </div>
+
+    <div class="chips">
+      ${cuisines.map(c=>`<button class="chip ${S.cuisine===c?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join('')}
+    </div>
+
+    <p class="count"><b>${list.length}</b> menu set${list.length===1?'':'s'}${S.cuisine!=='All'?' in '+esc(S.cuisine):''}</p>
+
+    <div class="grid" id="grid">
+      ${list.length?list.map(card).join(''):`
+        <div class="empty"><h3>No menu sets match that</h3>
+        <p>Try a different cuisine or clear the search.</p></div>`}
+      <div class="addtile" onclick="openModal()">
+        <div class="plus">+</div>
+        <strong>Add a menu set</strong>
+        <small>Upload the vendor image, name the set, and it publishes straight to this grid.</small>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="foot">
+    Gluten-free (GF) · Dairy-free (DF) · Nut-free (NF) · Vegetarian (V) · Vegan (VG) · Halal (HL)
+  </div></div>`;
+
+  const qi=document.getElementById('q');
+  qi.oninput=e=>{S.q=e.target.value;const p=e.target.selectionStart;renderGrid();
+    const n=document.getElementById('q');n.focus();n.setSelectionRange(p,p);};
+  document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{S.cuisine=b.dataset.c;renderGrid();});
+  document.getElementById('sortby').onchange=e=>{
+    const v=e.target.value;
+    SETS.sort((a,b)=> v==='lo'?a.price-b.price : v==='hi'?b.price-a.price :
+      v==='az'?a.name.localeCompare(b.name) : (b.pop?1:0)-(a.pop?1:0));
+    renderGrid();
+  };
+}
+
+function card(s){
+  return `<article class="card" tabindex="0" onclick="go('/${s.slug}')"
+    onkeydown="if(event.key==='Enter')go('/${s.slug}')">
+    <div class="thumb">
+      <img src="${s.img}" alt="${esc(s.name)} by ${esc(s.vendor)}">
+      ${s.isNew?'<span class="badge badge-new">Just added</span>':s.pop?'<span class="badge">Popular</span>':''}
+      <button class="fav ${S.favs.has(s.slug)?'on':''}" onclick="event.stopPropagation();toggleFav('${s.slug}')" aria-label="Save">
+        <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9.5A3.9 3.9 0 0112 8a3.9 3.9 0 017 2.5c0 5-7 9.5-7 9.5z"/></svg>
+      </button>
+    </div>
+    <div class="body">
+      <p class="vendor">${esc(s.vendor)}</p>
+      <h3 class="name">${esc(s.name)}</h3>
+      <p class="desc">${esc(s.desc||'')}</p>
+      <div class="tags">${(s.tags||[]).slice(0,5).map(t=>
+        `<span class="tag ${t==='V'||t==='VG'?'veg':''}">${t}</span>`).join('')}</div>
+      <div class="meta">
+        <div class="price">${money(s.price)}<span>per person</span></div>
+        <div class="minmax"><b>Min ${s.min} guests</b>${esc(s.lead||'48 hrs')} notice</div>
+      </div>
+    </div>
+  </article>`;
+}
+function toggleFav(slug){S.favs.has(slug)?S.favs.delete(slug):S.favs.add(slug);renderGrid();}
+
+/* ============================================================
+   VENDORS + HOW IT WORKS
+   ============================================================ */
+function vendorGroups(){
+  return [...new Set(SETS.map(s=>s.vendor))].sort((a,b)=>a.localeCompare(b)).map(v=>{
+    const menus=SETS.filter(s=>s.vendor===v);
+    const cuisines=[...new Set(menus.map(s=>s.cuisine))];
+    const avg=menus.reduce((t,s)=>t+s.price,0)/menus.length;
+    const minGuests=Math.min(...menus.map(s=>s.min||10));
+    return {vendor:v,menus,cuisines,avg,minGuests};
+  });
+}
+function vendorLogoClass(v){
+  const cuisine=(v.cuisines[0]||'').toLowerCase().replace(/\s+/g,'-');
+  return {
+    mexican:'mexican',
+    thai:'thai',
+    sandwiches:'sandwiches',
+    bbq:'bbq',
+    japanese:'japanese',
+    italian:'italian',
+    'middle-eastern':'middle-eastern',
+    indian:'indian',
+  }[cuisine]||'thai';
+}
+function renderVendorsPage(){
+  const vendors=vendorGroups();
+  document.getElementById('app').innerHTML=`
+  <div class="page">
+    <section class="page-head">
+      <div>
+        <p class="eyebrow">Local catering partners</p>
+        <h1>Vendors</h1>
+        <p class="sub">Browse approved vendors, their cuisines, menu set counts and starting order requirements.</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-ghost" onclick="go('/add-menu-set')">+ Add menu set</button>
+        <button class="btn btn-orange" onclick="go('/')">View marketplace</button>
+      </div>
+    </section>
+
+    <div class="vendor-grid">
+      ${vendors.map(v=>`
+        <article class="vendor-card">
+          <div class="vendor-logo ${vendorLogoClass(v)}" role="img" aria-label="${esc(v.vendor)} logo"></div>
+          <div class="vendor-info">
+            <h3>${esc(v.vendor)}</h3>
+            <p>${esc(v.cuisines.join(' · '))}</p>
+          </div>
+          <div class="stats">
+            <div class="stat"><b>${v.menus.length}</b><span>menu sets</span></div>
+            <div class="stat"><b>${money(v.avg)}</b><span>avg pp</span></div>
+            <div class="stat"><b>${v.minGuests}</b><span>min guests</span></div>
+          </div>
+          <div class="vendor-menus">
+            ${v.menus.slice(0,4).map(m=>`<span class="mini-tag">${esc(m.name)}</span>`).join('')}
+          </div>
+          <button class="btn btn-ghost" onclick="S.q='${esc(v.vendor)}';go('/')">View menus</button>
+        </article>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderHowPage(){
+  const steps=[
+    ['Browse menu sets','Filter by cuisine, vendor or dietary tags and compare pricing, minimums and lead time.'],
+    ['Pick your combo','Choose two proteins, two sides and any add-ons for the event.'],
+    ['Send event details','Add delivery address, guest count, time, allergies and order notes.'],
+    ['Confirm booking','Send the request or pay a deposit to reserve the vendor for your date.'],
+  ];
+  document.getElementById('app').innerHTML=`
+  <div class="page">
+    <section class="page-head">
+      <div>
+        <p class="eyebrow">Ordering flow</p>
+        <h1>How It Works</h1>
+        <p class="sub">A simple catering workflow for browsing, configuring, and requesting a menu set from vetted vendors.</p>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-orange" onclick="go('/')">Start browsing</button>
+        <button class="btn btn-ghost" onclick="go('/vendors')">View vendors</button>
+      </div>
+    </section>
+
+    <div class="step-grid">
+      ${steps.map((s,i)=>`
+        <article class="flow-step">
+          <div class="flow-num">${i+1}</div>
+          <h3>${esc(s[0])}</h3>
+          <p>${esc(s[1])}</p>
+        </article>`).join('')}
+    </div>
+
+    <section class="info-band">
+      <div>
+        <h2>What gets captured</h2>
+        <p>Each order request includes the menu selections, guest count, delivery timing, address, allergies and any setup notes the vendor needs.</p>
+      </div>
+      <ul class="check-list">
+        <li>Dietary labels stay visible throughout selection.</li>
+        <li>Protein and side upcharges update the per-person estimate.</li>
+        <li>Add-ons are quantity based and added to the final estimate.</li>
+        <li>Minimum guest and notice requirements stay attached to every menu set.</li>
+      </ul>
+    </section>
+  </div>`;
+}
+
+/* ============================================================
+   DETAIL PAGE  (/menu-set-slug)
+   ============================================================ */
+function renderDetail(s){
+  const proteins=s.proteins||DEFAULT_PROTEINS, sides=s.sides||DEFAULT_SIDES, addons=s.addons||DEFAULT_ADDONS;
+  if(!S.picks[s.slug]) S.picks[s.slug]={p:[],s:[],a:{},guests:s.min||1};
+  const P=S.picks[s.slug];
+  P.guests=Math.max(s.min||1,parseInt(P.guests)||s.min||1);
+  const veg=proteins.filter(x=>x.veg), meat=proteins.filter(x=>!x.veg);
+
+  const optRow=(o,kind,i,arr)=>{
+    const on=kind==='a'?false:P[kind].includes(i);
+    const full=kind!=='a'&&P[kind].length>=2&&!on;
+    return `<div class="opt">
+      <img class="opt-img" src="${s.img}" alt="">
+      <div class="opt-in">
+        <p class="opt-t">${esc(o.n)} ${o.veg?'<span class="vegtag">✓ VEG</span>':''}
+          ${o.diet?`<span class="diet">[${esc(o.diet)}]</span>`:''}</p>
+        <p class="opt-d">${esc(o.d)}</p>
+        ${o.up?`<p class="opt-up">${money(o.up)} per person upcharge</p>`:''}
+        ${o.p?`<p class="opt-up">${money(o.p)} each</p>`:''}
+      </div>
+      ${kind==='a'
+        ? `<div class="step">
+             <button onclick="bump('${s.slug}',${i},-1)">−</button>
+             <span>${P.a[i]||0}</span>
+             <button onclick="bump('${s.slug}',${i},1)">+</button>
+           </div>`
+        : `<button class="box ${on?'on':''} ${full?'dis':''}" ${full?'disabled':''}
+             onclick="pick('${s.slug}','${kind}',${i})" aria-label="Select ${esc(o.n)}">
+             <svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg></button>`}
+    </div>`;
+  };
+
+  // ---- live totals
+  const guests=P.guests;
+  const upcharge=[
+    ...P.p.map(i=>proteins[i]),
+    ...P.s.map(i=>sides[i]),
+  ].reduce((t,o)=>t+(o.up||0),0);
+  const perHead=s.price+upcharge;
+  const addonTotal=Object.entries(P.a).reduce((t,[i,q])=>t+(addons[i].p*q),0);
+  const total=perHead*guests+addonTotal;
+  const chosen=[...P.p.map(i=>proteins[i]),...P.s.map(i=>sides[i])];
+  const complete=P.p.length===2&&P.s.length===2;
+
+  document.getElementById('app').innerHTML=`
+  <div class="detail">
+    <button class="back" onclick="go('/')">← All menu sets</button>
+    <div class="d-head">
+      <div>
+        <p class="eyebrow">Summer 2026 · Catering</p>
+        <h1>${esc(s.name)}</h1>
+        <p class="vend">${esc(s.vendor)}</p>
+      </div>
+      <div style="width:140px;flex:none">
+        <svg viewBox="0 0 60 32" style="width:52px;display:block;margin:0 auto">
+          <path d="M8 4l44 24M52 4L8 28" stroke="#E07B22" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </svg>
+        <div class="brand-word" style="font-size:40px;text-align:center;margin-top:-4px">Epicater</div>
+      </div>
+    </div>
+
+    <div class="combo">
+      <div class="combo-badge">PICK YOUR<br>COMBO</div>
+      <div class="combo-txt">
+        <p class="p">${money(s.price)} per person</p>
+        <p class="t">${esc(s.comboTitle||'2 Proteins & 2 Sides')}</p>
+        <p class="d">${esc(s.comboDesc||'Pick any two proteins — mix meat, or go all vegetarian with the options below the line. Then choose two sides.')}</p>
+      </div>
+    </div>
+
+    <div class="two">
+      <section>
+        <div class="rule-head"><h2>Proteins</h2></div>
+        <p class="sec-note">Choose any 2 <span class="pill">${P.p.length} / 2 selected</span></p>
+        ${meat.map(o=>optRow(o,'p',proteins.indexOf(o))).join('')}
+        ${veg.length?`<div class="divider"><span>VEGETARIAN</span></div>
+          ${veg.map(o=>optRow(o,'p',proteins.indexOf(o))).join('')}`:''}
+      </section>
+      <section>
+        <div class="rule-head"><h2>Sides</h2></div>
+        <p class="sec-note">Choose 2 <span class="pill">${P.s.length} / 2 selected</span></p>
+        ${sides.map((o,i)=>optRow(o,'s',i)).join('')}
+      </section>
+    </div>
+
+    <section style="max-width:560px;margin-bottom:34px">
+      <div class="rule-head"><h2>Add-ons</h2></div>
+      <p class="sec-note">Type how many you want</p>
+      ${addons.map((o,i)=>optRow(o,'a',i)).join('')}
+    </section>
+
+    <div class="panel">
+      <h4>Your selection</h4>
+      <p class="ph">Review before you send.</p>
+      ${chosen.length||Object.keys(P.a).length
+        ? [...chosen.map(o=>`<div class="sum-row"><span class="l">${esc(o.n)}</span>
+             <span class="r">${o.up?'+'+money(o.up)+' pp':'included'}</span></div>`),
+           ...Object.entries(P.a).filter(([,q])=>q>0).map(([i,q])=>
+             `<div class="sum-row"><span class="l">${esc(addons[i].n)} × ${q}</span>
+              <span class="r">${money(addons[i].p*q)}</span></div>`)].join('')
+        : '<p class="sum-empty">Nothing selected yet.</p>'}
+      <div class="guest-row">
+        <div>
+          <label>Guests</label>
+          <small>Minimum ${s.min} guests</small>
+        </div>
+        <div class="step compact" aria-label="Guests">
+          <button onclick="bumpGuests('${s.slug}',-1)" ${guests<=s.min?'disabled':''}>−</button>
+          <span>${guests}</span>
+          <button onclick="bumpGuests('${s.slug}',1)">+</button>
+        </div>
+      </div>
+      <div class="tot">
+        <span class="l">Estimated total</span>
+        <span class="r">${complete?money(total):'—'}
+          <small>${complete?money(perHead)+' pp × '+guests+' guests':'Select 2 proteins and 2 sides'}</small></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h4>Event details</h4>
+      <p class="ph">So we know where and when to deliver.</p>
+      <div class="fields">
+        <div class="f"><label>Contact name <span class="req">*</span></label><input></div>
+        <div class="f"><label>Company</label><input></div>
+        <div class="f"><label>Email <span class="req">*</span></label><input type="email"></div>
+        <div class="f"><label>Phone</label><input type="tel"></div>
+        <div class="f"><label>Delivery date <span class="req">*</span></label><input type="date"></div>
+        <div class="f"><label>Delivery time</label><input type="time" value="12:30"></div>
+        <div class="f full"><label>Delivery address <span class="req">*</span></label>
+          <input placeholder="Street, suite, city"></div>
+        <div class="f full"><label>Allergies &amp; notes</label>
+          <textarea placeholder="Severe allergies, setup instructions, loading dock access, etc."></textarea></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+        <button class="btn btn-ghost" onclick="window.print()">Print</button>
+        <span style="flex:1"></span>
+        <button class="btn btn-orange">Send Order Request</button>
+        <button class="btn btn-blue">Pay 50% Deposit</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin:14px 0 0">
+        Secure checkout. A 50% deposit confirms your booking; the balance is invoiced after the event.</p>
+    </div>
+
+    <div class="foot">Gluten-free (GF) · Dairy-free (DF) · Nut-free (NF) · Vegetarian (V) · Vegan (VG) · Halal (HL) ·
+      Minimum ${s.min} guests · ${esc(s.lead||'48 hrs')} notice</div>
+  </div>
+
+  <div class="stick">
+    <div>
+      <div class="lbl">${complete?esc(s.name)+' · '+guests+' guests':'Nothing selected'}</div>
+      <div class="amt">${complete?money(total):'—'}</div>
+    </div>
+    <div class="sp"></div>
+    <button class="btn btn-ghost">Send Order Request</button>
+    <button class="btn btn-blue">Pay 50% Deposit</button>
+  </div>`;
+}
+
+function pick(slug,kind,i){
+  const P=S.picks[slug], arr=P[kind], at=arr.indexOf(i);
+  if(at>-1) arr.splice(at,1); else if(arr.length<2) arr.push(i);
+  renderDetail(SETS.find(x=>x.slug===slug));
+}
+function bump(slug,i,d){
+  const P=S.picks[slug];
+  P.a[i]=Math.max(0,(P.a[i]||0)+d);
+  if(!P.a[i]) delete P.a[i];
+  renderDetail(SETS.find(x=>x.slug===slug));
+}
+function setGuests(slug,v){
+  const set=SETS.find(x=>x.slug===slug);
+  S.picks[slug].guests=Math.max(set.min||1,parseInt(v)||set.min||1);
+  renderDetail(set);
+}
+function bumpGuests(slug,d){
+  const set=SETS.find(x=>x.slug===slug);
+  const P=S.picks[slug];
+  setGuests(slug,(P.guests||set.min||1)+d);
+}
+
+/* ============================================================
+   ADD MENU SET PAGE
+   ============================================================ */
+function renderAddPage(){
+  document.getElementById('app').innerHTML=`
+  <div class="add-page">
+    <button class="back" onclick="go('/')">← Marketplace</button>
+    <div class="add-head">
+      <div>
+        <p class="eyebrow">Vendor setup</p>
+        <h1>Add Menu Set</h1>
+        <p>Create a menu set, define its proteins, sides and add-ons, then publish it to the marketplace.</p>
+      </div>
+    </div>
+    <div class="add-shell">
+      ${addFormHtml()}
+      <div class="add-actions">
+        <span class="note">Draft saves to this session only.</span>
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-orange" onclick="publish()">Publish to marketplace</button>
+      </div>
+    </div>
+  </div>`;
+  bindAddFormPage();
+  renderChoiceBuilders();
+  updateSlug();
+}
+
+function addFormHtml(){
+  return `
+    <div class="drop" id="drop" tabindex="0">
+      <div class="ic">🍽️</div>
+      <strong>Drop the vendor image here</strong>
+      <small>or click to browse — JPG or PNG, 1200×900 or larger works best</small>
+    </div>
+    <input type="file" id="file" accept="image/*" hidden>
+
+    <div class="fields">
+      <div class="f full">
+        <label>Menu set name <span class="req">*</span></label>
+        <input id="f-name" placeholder="e.g. Pad Thai" oninput="updateSlug()">
+        <div class="slug">Page URL — <b id="slugout">/your-menu-set</b></div>
+      </div>
+      <div class="f">
+        <label>Vendor <span class="req">*</span></label>
+        <select id="f-vendor" onchange="updateSlug()">
+          <option value="">Select vendor</option>
+          ${vendorOptionsHtml()}
+        </select>
+      </div>
+      <div class="f">
+        <label>Cuisine</label>
+        <select id="f-cuisine">
+          <option>Thai</option><option>Italian</option><option>Indian</option>
+          <option>Mexican</option><option>Middle Eastern</option><option>Japanese</option>
+          <option>BBQ</option><option>Sandwiches</option><option>Breakfast</option><option>Other</option>
+        </select>
+      </div>
+      <div class="f">
+        <label>Price per person <span class="req">*</span></label>
+        <input id="f-price" type="number" step="0.25" min="0" placeholder="18.50">
+      </div>
+      <div class="f">
+        <label>Minimum guests</label>
+        <input id="f-min" type="number" min="1" value="10">
+      </div>
+      <div class="f">
+        <label>Notice</label>
+        <input id="f-lead" placeholder="48 hrs" value="48 hrs">
+      </div>
+      <div class="f full">
+        <label>Short description</label>
+        <textarea id="f-desc" placeholder="One or two lines shown on the marketplace card."></textarea>
+      </div>
+      <div class="f full">
+        <label>Dietary options available</label>
+        <div class="checks" id="f-tags">
+          ${DIET_OPTIONS.map(t=>`<button class="ck" type="button" data-t="${t.code}">${t.label}</button>`).join('')}
+        </div>
+      </div>
+      <div class="f full">
+        <label>Menu choices</label>
+        <div class="builder">
+          <div class="builder-sec">
+            <div class="builder-head">
+              <strong>Proteins</strong>
+              <button class="mini" type="button" onclick="addChoice('proteins')">+ Add protein</button>
+            </div>
+            <div id="builder-proteins"></div>
+          </div>
+          <div class="builder-sec">
+            <div class="builder-head">
+              <strong>Sides</strong>
+              <button class="mini" type="button" onclick="addChoice('sides')">+ Add side</button>
+            </div>
+            <div id="builder-sides"></div>
+          </div>
+          <div class="builder-sec">
+            <div class="builder-head">
+              <strong>Add-ons</strong>
+              <button class="mini" type="button" onclick="addChoice('addons')">+ Add add-on</button>
+            </div>
+            <div id="builder-addons"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="err" id="err">Add a menu set name, vendor and price to publish.</div>`;
+}
+
+function vendorOptionsHtml(){
+  return [...new Set(SETS.map(s=>s.vendor))]
+    .sort((a,b)=>a.localeCompare(b))
+    .map(v=>`<option value="${esc(v)}">${esc(v)}</option>`)
+    .join('');
+}
+
+/* ============================================================
+   UPLOAD FLOW
+   ============================================================ */
+function defaultChoiceDraft(){
+  return {
+    proteins:[blankChoice('proteins'),blankChoice('proteins')],
+    sides:[blankChoice('sides'),blankChoice('sides')],
+    addons:[blankChoice('addons')],
+  };
+}
+function blankChoice(kind){
+  return {
+    n:'',
+    d:'',
+    diet:[],
+    veg:false,
+    up:'',
+    p:'',
+  };
+}
+function renderChoiceBuilders(){
+  ['proteins','sides','addons'].forEach(renderChoiceBuilder);
+}
+function renderChoiceBuilder(kind){
+  const el=document.getElementById('builder-'+kind);
+  if(!el)return;
+  const label=kind==='proteins'?'Protein':kind==='sides'?'Side':'Add-on';
+  el.innerHTML=S.choices[kind].map((o,i)=>`
+    <div class="choice-row ${kind}">
+      <div class="choice-label">${label} ${i+1}</div>
+      <input value="${esc(o.n)}" placeholder="${label} name"
+        oninput="setChoice('${kind}',${i},'n',this.value)">
+      <input value="${esc(o.d)}" placeholder="Description"
+        oninput="setChoice('${kind}',${i},'d',this.value)">
+      ${kind==='proteins'||kind==='sides'?`
+        <input type="number" min="0" step="0.25" value="${o.up}" placeholder="$ upcharge"
+          oninput="setChoice('${kind}',${i},'up',this.value)">`:kind==='addons'?`
+        <input type="number" min="0" step="0.25" value="${o.p}" placeholder="$ each"
+          oninput="setChoice('${kind}',${i},'p',this.value)">`:''}
+      <button class="trash" type="button" onclick="removeChoice('${kind}',${i})" aria-label="Remove">&times;</button>
+      <div class="diet-picks" aria-label="Dietary options">
+        ${DIET_OPTIONS.map(t=>`<button class="diet-pick ${selectedDiet(o).includes(t.code)?'on':''}" type="button"
+          onclick="toggleChoiceDiet('${kind}',${i},'${t.code}')">${t.label}</button>`).join('')}
+      </div>
+    </div>`).join('');
+}
+function setChoice(kind,i,key,value){
+  S.choices[kind][i][key]=value;
+}
+function selectedDiet(o){
+  return Array.isArray(o.diet)
+    ? o.diet
+    : String(o.diet||'').split(',').map(x=>x.trim()).filter(Boolean);
+}
+function toggleChoiceDiet(kind,i,code){
+  const diet=selectedDiet(S.choices[kind][i]);
+  const at=diet.indexOf(code);
+  if(at>-1)diet.splice(at,1); else diet.push(code);
+  S.choices[kind][i].diet=diet;
+  renderChoiceBuilder(kind);
+}
+function addChoice(kind){
+  S.choices[kind].push(blankChoice(kind));
+  renderChoiceBuilder(kind);
+}
+function removeChoice(kind,i){
+  S.choices[kind].splice(i,1);
+  if(!S.choices[kind].length)S.choices[kind].push(blankChoice(kind));
+  renderChoiceBuilder(kind);
+}
+function collectChoices(kind){
+  return S.choices[kind]
+    .map(o=>{
+      const diet=selectedDiet(o);
+      const item={n:o.n.trim(),d:o.d.trim(),diet:diet.join(', ')};
+      if(kind==='proteins'||kind==='sides'){
+        const up=parseFloat(o.up);
+        if(up>0)item.up=up;
+      }
+      if(kind==='proteins'){
+        if(diet.includes('V')||diet.includes('VG'))item.veg=true;
+      }
+      if(kind==='addons'){
+        const p=parseFloat(o.p);
+        item.p=p>0?p:0;
+      }
+      return item;
+    })
+    .filter(o=>o.n&&o.d&&(kind!=='addons'||o.p>0));
+}
+function openModal(){go('/add-menu-set');}
+function closeModal(){go('/');}
+function bindAddFormPage(){
+  const drop=document.getElementById('drop'), file=document.getElementById('file'), tags=document.getElementById('f-tags');
+  if(!drop||!file)return;
+  drop.onclick=()=>file.click();
+  drop.onkeydown=e=>{if(e.key==='Enter')file.click();};
+  ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('hot');}));
+  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('hot');}));
+  drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)readImg(f);});
+  file.onchange=e=>{const f=e.target.files[0];if(f)readImg(f);};
+  if(tags)tags.onclick=e=>{
+    const b=e.target.closest('.ck'); if(!b)return;
+    b.classList.toggle('on');
+    S.tags.has(b.dataset.t)?S.tags.delete(b.dataset.t):S.tags.add(b.dataset.t);
+  };
+}
+
+function readImg(f){
+  if(!f.type.startsWith('image/'))return;
+  const r=new FileReader();
+  r.onload=()=>{
+    const drop=document.getElementById('drop');
+    if(!drop)return;
+    S.upload=r.result;
+    drop.classList.add('has');
+    drop.innerHTML=`<img src="${r.result}" alt="Vendor image preview"><span class="swap">Replace image</span>`;
+  };
+  r.readAsDataURL(f);
+}
+
+function updateSlug(){
+  const nameEl=document.getElementById('f-name'), vendorEl=document.getElementById('f-vendor');
+  if(!nameEl||!vendorEl)return;
+  const n=nameEl.value, v=vendorEl.value;
+  const sl=slugify([n,v].filter(Boolean).join(' ')) || 'your-menu-set';
+  document.getElementById('slugout').textContent='/'+sl;
+}
+
+function publish(){
+  const name=document.getElementById('f-name').value.trim();
+  const vendor=document.getElementById('f-vendor').value.trim();
+  const price=parseFloat(document.getElementById('f-price').value);
+  const proteins=collectChoices('proteins');
+  const sides=collectChoices('sides');
+  const addons=collectChoices('addons');
+  const err=document.getElementById('err');
+  if(!name||!vendor||!(price>0)){
+    err.textContent='Add a menu set name, vendor and price to publish.';
+    err.classList.add('on');
+    return;
+  }
+  if(proteins.length<2||sides.length<2){
+    err.textContent='Add at least 2 proteins and 2 sides before publishing.';
+    err.classList.add('on');
+    return;
+  }
+  err.classList.remove('on');
+
+  const slug=slugify(name+' '+vendor);
+  SETS.unshift({
+    slug,name,vendor,
+    cuisine:document.getElementById('f-cuisine').value,
+    price,
+    min:parseInt(document.getElementById('f-min').value)||10,
+    lead:document.getElementById('f-lead').value.trim()||'48 hrs',
+    img:S.upload||plate('#F2F4F7','#E4E7EC','#98A2B3'),
+    desc:document.getElementById('f-desc').value.trim()||'Menu set from '+vendor+'.',
+    tags:[...S.tags],
+    comboTitle:'2 Proteins & 2 Sides',
+    comboDesc:'Pick any two proteins, then choose two sides. Add-ons can be entered by quantity.',
+    proteins,
+    sides,
+    addons,
+    isNew:true,
+  });
+  resetForm(); closeModal(); go('/'); renderGrid();
+}
+
+function resetForm(){
+  ['f-name','f-vendor','f-price','f-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-min').value=10;
+  document.getElementById('f-lead').value='48 hrs';
+  document.querySelectorAll('#f-tags .ck').forEach(b=>b.classList.remove('on'));
+  S.tags.clear(); S.upload=null;
+  S.choices=defaultChoiceDraft();
+  renderChoiceBuilders();
+  const drop=document.getElementById('drop');
+  if(drop){
+    drop.classList.remove('has');
+    drop.innerHTML=`<div class="ic">🍽️</div><strong>Drop the vendor image here</strong>
+      <small>or click to browse — JPG or PNG, 1200×900 or larger works best</small>`;
+  }
+  updateSlug();
+}
+
+route();
+</script>
+</body>
+</html>
